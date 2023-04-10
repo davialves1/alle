@@ -57,12 +57,17 @@ const AlleLogin = () => {
       }
     });
 
-    getRedirectResult(auth).then((userCredential) => {
+    getRedirect();
+  }, []);
+
+  const getRedirect = async () => {
+    await getRedirectResult(auth).then((userCredential) => {
+      console.log('userCredential', userCredential);
       if (userCredential) {
         setAlleUser(userCredential.user);
       }
     });
-  }, []);
+  };
 
   const onLogout = () => {
     signOut(auth)
