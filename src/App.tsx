@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import CardOffer from './common/CardOffer';
 import { Offer } from './common/offer-model';
-import AlleHeader from './common/alle-ui/AlleHeader';
 import {
   collection,
   getDocs,

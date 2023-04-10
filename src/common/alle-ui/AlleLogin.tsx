@@ -10,6 +10,8 @@ import {
   signOut,
   onAuthStateChanged,
   User,
+  signInWithRedirect,
+  getRedirectResult,
 } from 'firebase/auth';
 import Avatar from '@mui/joy/Avatar/Avatar';
 import { AlleUser } from '../models/AlleUser';
@@ -25,11 +27,21 @@ const AlleLogin = () => {
 
   auth.languageCode = 'br';
 
+  const popupSignIn = async () => {
+    return signInWithPopup(auth, provider)
+      .then((userCredential) => setAlleUser(userCredential.user))
+      .catch((e) => console.warn(e.message));
+  };
+
+  const redirectSignIn = async () => {
+    return signInWithRedirect(auth, provider).catch((e) =>
+      console.warn(e.message)
+    );
+  };
+
   const onLogin = () => {
     setPersistence(auth, browserSessionPersistence).then(async () => {
-      return signInWithPopup(auth, provider)
-        .then((userCredential) => setAlleUser(userCredential.user))
-        .catch((e) => console.warn(e.message));
+      return window.innerWidth < 600 ? redirectSignIn() : popupSignIn;
     });
   };
 
@@ -42,6 +54,12 @@ const AlleLogin = () => {
     onAuthStateChanged(auth, (loggedUser) => {
       if (loggedUser) {
         setAlleUser(loggedUser);
+      }
+    });
+
+    getRedirectResult(auth).then((userCredential) => {
+      if (userCredential) {
+        setAlleUser(userCredential.user);
       }
     });
   }, []);
@@ -67,7 +85,7 @@ const AlleLogin = () => {
       {user && (
         <Link to='/my-account'>
           <div className='flex items-center'>
-            <p className='text-white me-5'>Bem-vindo {user.displayName}</p>
+            <p className='text-white me-5'>{user.displayName}</p>
             <Avatar
               alt={user.displayName ? user.displayName : ''}
               src={user.photoURL ? user.photoURL : ''}

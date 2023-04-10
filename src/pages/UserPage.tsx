@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { AppContext } from '../common/AppContext';
-import AlleHeader from '../common/alle-ui/AlleHeader';
 import AlleBody from '../common/alle-ui/AlleBody';
 import CircularProgress from '@mui/joy/CircularProgress';
 
