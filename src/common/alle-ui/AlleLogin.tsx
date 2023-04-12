@@ -34,11 +34,13 @@ const AlleLogin = () => {
   auth.languageCode = 'br';
 
   const onLogin = () => {
-    setPersistence(auth, browserSessionPersistence).then(async () => {
-      return signInWithRedirect(auth, provider).catch((e) =>
-        console.warn(e.message)
-      );
-    });
+    setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        return signInWithRedirect(auth, provider).catch((e) =>
+          console.warn(e.message)
+        );
+      })
+      .catch((er) => console.warn(er));
   };
 
   const setAlleUser = (loggedUser: User): void => {
