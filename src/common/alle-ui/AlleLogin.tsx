@@ -24,12 +24,12 @@ const app = initializeApp(firebaseConfig);
 
 export const database = getFirestore(app);
 
+export const provider = new GoogleAuthProvider();
+
+export const auth = getAuth(app);
+
 const AlleLogin = () => {
   const { user, setUser } = useContext(AppContext);
-
-  const provider = new GoogleAuthProvider();
-
-  const auth = getAuth(app);
 
   auth.languageCode = 'br';
 
@@ -74,12 +74,14 @@ const AlleLogin = () => {
     <div className='justify-end'>
       {!user && (
         <>
-          <AlleButton variant={ColorVariants.secondary} onClick={onLogin}>
-            Login
-          </AlleButton>
-          <AlleButton className='ms-4' variant={ColorVariants.outline}>
-            Criar conta
-          </AlleButton>
+          <Link to='/login'>
+            <AlleButton variant={ColorVariants.secondary}>Login</AlleButton>
+          </Link>
+          <Link to='/new-account'>
+            <AlleButton className='ms-4' variant={ColorVariants.outline}>
+              Criar conta
+            </AlleButton>
+          </Link>
         </>
       )}
       {user && (
