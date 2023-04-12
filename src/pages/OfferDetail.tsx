@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 import { Offer } from '../common/offer-model';
 import { AppContext } from '../common/AppContext';
 import AlleBody from '../common/alle-ui/AlleBody';
-import { database } from '../main';
 import AlleHeader from '../common/alle-ui/AlleHeader';
+import { database } from '../common/alle-ui/AlleLogin';
 
 const OfferDetail = () => {
   const { offers } = useContext(AppContext) as { offers: Offer[] };

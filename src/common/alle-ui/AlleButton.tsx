@@ -27,7 +27,7 @@ const AlleButton = ({
   return (
     <button
       onClick={onClick}
-      className={`${bg()} py-3 px-4 rounded-lg mx-2 text-sm font-semibold ${className}`}
+      className={`${bg()} py-3 px-4 rounded-lg text-sm font-semibold ${className}`}
     >
       {children}
     </button>

@@ -5,8 +5,8 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { AppContext } from './common/AppContext';
 import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
 import AlleBody from './common/alle-ui/AlleBody';
-import { database } from './main';
 import AlleHeader from './common/alle-ui/AlleHeader';
+import { database } from './common/alle-ui/AlleLogin';
 
 function App() {
   const { offers, setOffers } = useContext(AppContext);

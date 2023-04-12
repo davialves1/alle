@@ -6,7 +6,6 @@ import {
   getAuth,
   setPersistence,
   browserSessionPersistence,
-  signInWithPopup,
   signOut,
   User,
   signInWithRedirect,
@@ -17,7 +16,13 @@ import Avatar from '@mui/joy/Avatar/Avatar';
 import { AlleUser } from '../models/AlleUser';
 import { AppContext } from '../AppContext';
 import { Link } from 'react-router-dom';
-import { app } from '../../main';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { firebaseConfig } from '../../FirebaseConfig';
+
+const app = initializeApp(firebaseConfig);
+
+export const database = getFirestore(app);
 
 const AlleLogin = () => {
   const { user, setUser } = useContext(AppContext);
@@ -50,9 +55,9 @@ const AlleLogin = () => {
       })
       .catch((err) => console.warn(err));
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAlleUser(user);
+    onAuthStateChanged(auth, (loggedUser) => {
+      if (loggedUser) {
+        setAlleUser(loggedUser);
       }
     });
   }, []);
@@ -70,7 +75,7 @@ const AlleLogin = () => {
           <AlleButton variant={ColorVariants.secondary} onClick={onLogin}>
             Login
           </AlleButton>
-          <AlleButton variant={ColorVariants.outline}>
+          <AlleButton className='ms-4' variant={ColorVariants.outline}>
             Criar minha conta
           </AlleButton>
         </>

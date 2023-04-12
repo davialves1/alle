@@ -6,14 +6,7 @@ import './App.sass';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import OfferDetail from './pages/OfferDetail';
 import ContextProvider from './common/AppContext';
-import UserPage from './pages/UserPage';
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { firebaseConfig } from './FirebaseConfig';
-
-export const app = initializeApp(firebaseConfig);
-
-export const database = getFirestore(app);
+import UserPage from './pages/user/UserPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
