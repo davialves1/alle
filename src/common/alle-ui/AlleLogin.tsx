@@ -8,40 +8,31 @@ import {
   browserSessionPersistence,
   signInWithPopup,
   signOut,
-  onAuthStateChanged,
   User,
   signInWithRedirect,
   getRedirectResult,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import Avatar from '@mui/joy/Avatar/Avatar';
 import { AlleUser } from '../models/AlleUser';
 import { AppContext } from '../AppContext';
 import { Link } from 'react-router-dom';
+import { app } from '../../main';
 
 const AlleLogin = () => {
   const { user, setUser } = useContext(AppContext);
 
   const provider = new GoogleAuthProvider();
 
-  const auth = getAuth();
+  const auth = getAuth(app);
 
   auth.languageCode = 'br';
 
-  const popupSignIn = async () => {
-    return signInWithPopup(auth, provider)
-      .then((userCredential) => setAlleUser(userCredential.user))
-      .catch((e) => console.warn(e.message));
-  };
-
-  const redirectSignIn = async () => {
-    return signInWithRedirect(auth, provider).catch((e) =>
-      console.warn(e.message)
-    );
-  };
-
   const onLogin = () => {
     setPersistence(auth, browserSessionPersistence).then(async () => {
-      return window.innerWidth < 600 ? redirectSignIn() : popupSignIn;
+      return signInWithRedirect(auth, provider).catch((e) =>
+        console.warn(e.message)
+      );
     });
   };
 
@@ -51,23 +42,20 @@ const AlleLogin = () => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (loggedUser) => {
-      if (loggedUser) {
-        setAlleUser(loggedUser);
+    getRedirectResult(auth)
+      .then((userCredential) => {
+        if (userCredential) {
+          setAlleUser(userCredential.user);
+        }
+      })
+      .catch((err) => console.warn(err));
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAlleUser(user);
       }
     });
-
-    getRedirect();
   }, []);
-
-  const getRedirect = async () => {
-    await getRedirectResult(auth).then((userCredential) => {
-      console.log('userCredential', userCredential);
-      if (userCredential) {
-        setAlleUser(userCredential.user);
-      }
-    });
-  };
 
   const onLogout = () => {
     signOut(auth)

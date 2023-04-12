@@ -7,19 +7,24 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import OfferDetail from './pages/OfferDetail';
 import ContextProvider from './common/AppContext';
 import UserPage from './pages/UserPage';
-import AlleHeader from './common/alle-ui/AlleHeader';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { firebaseConfig } from './FirebaseConfig';
+
+export const app = initializeApp(firebaseConfig);
+
+export const database = getFirestore(app);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ContextProvider>
-      <BrowserRouter>
-        <AlleHeader />
+    <BrowserRouter>
+      <ContextProvider>
         <Routes>
           <Route path='/' element={<App />} />
           <Route path='offer-detail/:offerId' element={<OfferDetail />} />
           <Route path='my-account' element={<UserPage />} />
         </Routes>
-      </BrowserRouter>
-    </ContextProvider>
+      </ContextProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,30 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import CardOffer from './common/CardOffer';
 import { Offer } from './common/offer-model';
-import {
-  collection,
-  getDocs,
-  getFirestore,
-  query,
-  where,
-} from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { AppContext } from './common/AppContext';
 import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
 import AlleBody from './common/alle-ui/AlleBody';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyDfY1ouoI4kirtJwJGwlGUkNY056THxPnU',
-  authDomain: 'alemanha-para-brasileiros.firebaseapp.com',
-  databaseURL: 'https://alemanha-para-brasileiros-default-rtdb.firebaseio.com',
-  projectId: 'alemanha-para-brasileiros',
-  storageBucket: 'alemanha-para-brasileiros.appspot.com',
-  messagingSenderId: '558296876390',
-  appId: '1:558296876390:web:1edbd572c7defedaea34a7',
-};
-
-export const app = initializeApp(firebaseConfig);
-export const database = getFirestore(app);
+import { database } from './main';
+import AlleHeader from './common/alle-ui/AlleHeader';
 
 function App() {
   const { offers, setOffers } = useContext(AppContext);
@@ -52,6 +34,7 @@ function App() {
 
   return (
     <>
+      <AlleHeader />
       <AlleBody className='flex flex-wrap'>
         {loading && <CircularProgress color='neutral' />}
         {!loading &&
