@@ -78,7 +78,7 @@ const AlleLogin = () => {
             Login
           </AlleButton>
           <AlleButton className='ms-4' variant={ColorVariants.outline}>
-            Criar minha conta
+            Criar conta
           </AlleButton>
         </>
       )}
