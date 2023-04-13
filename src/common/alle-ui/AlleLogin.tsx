@@ -2,46 +2,28 @@ import { useContext, useEffect } from 'react';
 import AlleButton from './AlleButton';
 import { ColorVariants } from '../models/ColorVariants';
 import {
-  GoogleAuthProvider,
   getAuth,
-  setPersistence,
-  browserSessionPersistence,
   signOut,
   User,
-  signInWithRedirect,
   getRedirectResult,
   onAuthStateChanged,
 } from 'firebase/auth';
 import Avatar from '@mui/joy/Avatar/Avatar';
 import { AlleUser } from '../models/AlleUser';
 import { AppContext } from '../AppContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
 import { firebaseConfig } from '../../FirebaseConfig';
 
 const app = initializeApp(firebaseConfig);
-
-export const database = getFirestore(app);
-
-export const provider = new GoogleAuthProvider();
-
-export const auth = getAuth(app);
+const auth = getAuth(app);
 
 const AlleLogin = () => {
+  const navigate = useNavigate();
+
   const { user, setUser } = useContext(AppContext);
 
   auth.languageCode = 'br';
-
-  const onLogin = () => {
-    setPersistence(auth, browserSessionPersistence)
-      .then(async () => {
-        return signInWithRedirect(auth, provider).catch((e) =>
-          console.warn(e.message)
-        );
-      })
-      .catch((er) => console.warn(er));
-  };
 
   const setAlleUser = (loggedUser: User): void => {
     const { displayName, email, photoURL } = loggedUser;
@@ -53,6 +35,7 @@ const AlleLogin = () => {
       .then((userCredential) => {
         if (userCredential) {
           setAlleUser(userCredential.user);
+          navigate('/');
         }
       })
       .catch((err) => console.warn(err));
@@ -68,6 +51,7 @@ const AlleLogin = () => {
     signOut(auth)
       .then(() => setUser(null))
       .catch((e) => console.warn(e.message));
+    navigate('/');
   };
 
   return (

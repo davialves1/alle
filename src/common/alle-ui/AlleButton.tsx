@@ -5,18 +5,20 @@ const AlleButton = ({
   variant,
   className,
   onClick,
+  type,
 }: {
   children: any;
   variant?: ColorVariants;
   className?: string;
   onClick?: any;
+  type?: string;
 }) => {
   const bg = (): string => {
     switch (variant) {
       case ColorVariants.primary:
         return 'bg-emerald-400 hover:bg-emerald-300 text-white';
       case ColorVariants.secondary:
-        return 'bg-white hover:bg-emerald-50 text-emerald-400';
+        return 'bg-white hover:bg-emerald-50 text-emerald-400 border border-emerald-400';
       case ColorVariants.outline:
         return 'border-2 border-white hover:bg-white/25 text-white';
       default:

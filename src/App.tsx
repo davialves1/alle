@@ -1,14 +1,24 @@
 import { useContext, useEffect, useState } from 'react';
 import CardOffer from './common/CardOffer';
 import { Offer } from './common/offer-model';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from 'firebase/firestore';
 import { AppContext } from './common/AppContext';
 import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
 import AlleBody from './common/alle-ui/AlleBody';
 import AlleHeader from './common/alle-ui/AlleHeader';
-import { database } from './common/alle-ui/AlleLogin';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from './FirebaseConfig';
 
 function App() {
+  const app = initializeApp(firebaseConfig);
+  const database = getFirestore();
+
   const { offers, setOffers } = useContext(AppContext);
 
   const [loading, setLoading] = useState(false);

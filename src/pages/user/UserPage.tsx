@@ -3,9 +3,16 @@ import { AppContext } from '../../common/AppContext';
 import AlleBody from '../../common/alle-ui/AlleBody';
 import AlleHeader from '../../common/alle-ui/AlleHeader';
 import CreateOffer from './CreateOffer';
+import { useNavigate } from 'react-router-dom';
 
 const UserPage = () => {
   const { user } = useContext(AppContext);
+
+  const navigate = useNavigate();
+
+  if (!user) {
+    navigate('/');
+  }
 
   return (
     <>

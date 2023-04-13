@@ -1,13 +1,16 @@
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Offer } from '../common/offer-model';
 import { AppContext } from '../common/AppContext';
 import AlleBody from '../common/alle-ui/AlleBody';
 import AlleHeader from '../common/alle-ui/AlleHeader';
-import { database } from '../common/alle-ui/AlleLogin';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../FirebaseConfig';
 
 const OfferDetail = () => {
+  const app = initializeApp(firebaseConfig);
+  const database = getFirestore();
   const { offers } = useContext(AppContext) as { offers: Offer[] };
 
   const { offerId } = useParams();

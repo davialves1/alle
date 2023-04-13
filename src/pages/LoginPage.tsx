@@ -1,18 +1,25 @@
 import { useContext, useRef } from 'react';
 import {
+  GoogleAuthProvider,
   browserSessionPersistence,
   getAuth,
   setPersistence,
   signInWithEmailAndPassword,
+  signInWithRedirect,
+  signOut,
 } from 'firebase/auth';
 import { AppContext } from '../common/AppContext';
 import { useNavigate } from 'react-router-dom';
 import AlleHeader from '../common/alle-ui/AlleHeader';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../FirebaseConfig';
+import AlleButton from '../common/alle-ui/AlleButton';
+import { ColorVariants } from '../common/models/ColorVariants';
 
 function LoginPage() {
   const app = initializeApp(firebaseConfig);
+
+  const provider = new GoogleAuthProvider();
 
   const auth = getAuth(app);
   const { setUser } = useContext(AppContext);
@@ -34,6 +41,23 @@ function LoginPage() {
         })
         .catch((err) => console.warn(err));
     });
+  };
+
+  const onLogout = () => {
+    signOut(auth)
+      .then(() => setUser(null))
+      .catch((e) => console.warn(e.message));
+  };
+
+  const onLogin = () => {
+    onLogout();
+    setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        return signInWithRedirect(auth, provider).catch((e) =>
+          console.warn(e.message)
+        );
+      })
+      .catch((er) => console.warn(er));
   };
 
   return (
@@ -69,13 +93,20 @@ function LoginPage() {
                 required
               />
             </div>
-            <div className='flex items-center justify-between'>
+            <div className='flex flex-col items-center justify-between'>
               <button
                 className='bg-emerald-400 hover:bg-emerald-300 text-white font-bold py-2 px-4 rounded focus:outline-none w-full focus:shadow-outline'
                 type='submit'
               >
                 Login
               </button>
+              <AlleButton
+                className='mt-5 w-full'
+                onClick={onLogin}
+                variant={ColorVariants.secondary}
+              >
+                Google Login
+              </AlleButton>
             </div>
           </form>
         </div>
