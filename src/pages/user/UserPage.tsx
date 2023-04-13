@@ -12,6 +12,7 @@ const UserPage = () => {
 
   if (!user) {
     navigate('/');
+    return <></>;
   }
 
   return (

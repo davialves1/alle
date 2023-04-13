@@ -2,8 +2,10 @@ import {
   setPersistence,
   browserSessionPersistence,
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
   getAuth,
+  signInWithRedirect,
+  signOut,
+  GoogleAuthProvider,
 } from 'firebase/auth';
 import { useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,9 +13,14 @@ import { AppContext } from '../common/AppContext';
 import AlleHeader from '../common/alle-ui/AlleHeader';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../FirebaseConfig';
+import AlleBody from '../common/alle-ui/AlleBody';
+import { AiOutlineGoogle } from 'react-icons/ai';
+import AlleButton from '../common/alle-ui/AlleButton';
+import { ColorVariants } from '../common/models/ColorVariants';
 const CreateAccountPage = () => {
   const app = initializeApp(firebaseConfig);
 
+  const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
 
   const { setUser } = useContext(AppContext);
@@ -37,11 +44,28 @@ const CreateAccountPage = () => {
     });
   };
 
+  const onLogout = () => {
+    signOut(auth)
+      .then(() => setUser(null))
+      .catch((e) => console.warn(e.message));
+  };
+
+  const createGoogleAccount = () => {
+    onLogout();
+    setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        return signInWithRedirect(auth, provider).catch((e) =>
+          console.warn(e.message)
+        );
+      })
+      .catch((er) => console.warn(er));
+  };
+
   return (
     <>
       <AlleHeader />
-      <div className='bg-slate-200 h-screen flex flex-col items-center justify-center'>
-        <div className='bg-white rounded-xl shadow-lg p-10'>
+      <AlleBody className='flex'>
+        <div className='bg-white rounded-xl shadow-lg p-10 w-1/2 pb-16'>
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Criar uma conta
           </h2>
@@ -72,17 +96,25 @@ const CreateAccountPage = () => {
                 required
               />
             </div>
-            <div className='flex items-center justify-between'>
+            <div className='flex flex-col items-center justify-between'>
               <button
                 className='bg-emerald-400 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-full focus:shadow-outline'
                 type='submit'
               >
                 Criar uma nova conta
               </button>
+              <AlleButton
+                className='mt-5 w-full'
+                onClick={createGoogleAccount}
+                icon={<AiOutlineGoogle size={24} className='mr-4' />}
+                variant={ColorVariants.secondary}
+              >
+                Criar conta com Google
+              </AlleButton>
             </div>
           </form>
         </div>
-      </div>
+      </AlleBody>
     </>
   );
 };

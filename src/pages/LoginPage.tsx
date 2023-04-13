@@ -9,12 +9,14 @@ import {
   signOut,
 } from 'firebase/auth';
 import { AppContext } from '../common/AppContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AlleHeader from '../common/alle-ui/AlleHeader';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../FirebaseConfig';
 import AlleButton from '../common/alle-ui/AlleButton';
 import { ColorVariants } from '../common/models/ColorVariants';
+import { AiOutlineGoogle } from 'react-icons/ai';
+import AlleBody from '../common/alle-ui/AlleBody';
 
 function LoginPage() {
   const app = initializeApp(firebaseConfig);
@@ -63,9 +65,11 @@ function LoginPage() {
   return (
     <>
       <AlleHeader />
-      <div className='bg-slate-200 h-screen flex flex-col items-center justify-center'>
-        <div className='bg-white rounded-xl shadow-lg p-10'>
-          <h2 className='text-xl mb-8 text-center text-slate-600'>Login</h2>
+      <AlleBody className='flex'>
+        <div className='bg-white rounded-xl shadow-lg p-10 w-1/2 '>
+          <h2 className='text-xl mb-8 text-center text-slate-600'>
+            Faça seu login
+          </h2>
           <form onSubmit={handleSubmit}>
             <div className='mb-4'>
               <label htmlFor='email' className='block text-gray-400 mb-2'>
@@ -103,14 +107,18 @@ function LoginPage() {
               <AlleButton
                 className='mt-5 w-full'
                 onClick={onLogin}
+                icon={<AiOutlineGoogle size={24} className='mr-4' />}
                 variant={ColorVariants.secondary}
               >
                 Google Login
               </AlleButton>
+              <Link className='mt-8 text-blue-500 text-sm' to='/new-account'>
+                Ainda não tem uma conta? Crie a sua.
+              </Link>
             </div>
           </form>
         </div>
-      </div>
+      </AlleBody>
     </>
   );
 }

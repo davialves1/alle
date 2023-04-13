@@ -3,12 +3,14 @@ import { ColorVariants } from '../models/ColorVariants';
 const AlleButton = ({
   children,
   variant,
+  icon,
   className,
   onClick,
   type,
 }: {
   children: any;
   variant?: ColorVariants;
+  icon?: any;
   className?: string;
   onClick?: any;
   type?: string;
@@ -29,8 +31,11 @@ const AlleButton = ({
   return (
     <button
       onClick={onClick}
-      className={`${bg()} py-3 px-4 rounded-lg text-sm font-semibold ${className}`}
+      className={`${bg()} py-3 px-4 rounded-lg text-sm font-semibold ${className} ${
+        icon ? 'flex items-center justify-center' : ''
+      }`}
     >
+      {icon && icon}
       {children}
     </button>
   );
