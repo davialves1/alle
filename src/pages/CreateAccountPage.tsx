@@ -2,14 +2,20 @@ import {
   setPersistence,
   browserSessionPersistence,
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  getAuth,
 } from 'firebase/auth';
 import { useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../common/AppContext';
-import { auth } from '../common/alle-ui/AlleLogin';
 import AlleHeader from '../common/alle-ui/AlleHeader';
-
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '../FirebaseConfig';
 const CreateAccountPage = () => {
+  const app = initializeApp(firebaseConfig);
+
+  const auth = getAuth(app);
+
   const { setUser } = useContext(AppContext);
 
   const navigate = useNavigate();
