@@ -65,8 +65,8 @@ function LoginPage() {
   return (
     <>
       <AlleHeader />
-      <AlleBody className='flex'>
-        <div className='bg-white rounded-xl shadow-lg p-10 w-1/2 '>
+      <AlleBody>
+        <div className='bg-white rounded-xl shadow-lg p-10 sm:w-10/12 md:w-1/2 xl:w-1/4'>
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Faça seu login
           </h2>

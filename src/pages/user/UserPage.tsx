@@ -19,7 +19,7 @@ const UserPage = () => {
     <>
       <AlleHeader />
       {user && (
-        <AlleBody>
+        <AlleBody className='flex-col'>
           <h2 className='text-2xl text-slate-600 mt-3'>
             Olá {user.displayName}
           </h2>

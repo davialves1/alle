@@ -7,7 +7,8 @@ const AlleBody = ({
 }) => {
   return (
     <div
-      className={`min-h-screen items-center justify-center bg-slate-200 pt-4 px-4 ${className}`}
+      style={{ minHeight: 'calc(100vh - 80px)' }}
+      className={`flex justify-items-center items-center justify-center bg-slate-200 px-4 ${className}`}
     >
       {children}
     </div>
