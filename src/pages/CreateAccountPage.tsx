@@ -97,12 +97,9 @@ const CreateAccountPage = () => {
               />
             </div>
             <div className='flex flex-col items-center justify-between'>
-              <button
-                className='bg-emerald-400 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded focus:outline-none w-full focus:shadow-outline'
-                type='submit'
-              >
+              <AlleButton className='py-4 w-full' type='submit'>
                 Criar uma nova conta
-              </button>
+              </AlleButton>
               <AlleButton
                 className='mt-5 w-full'
                 onClick={createGoogleAccount}

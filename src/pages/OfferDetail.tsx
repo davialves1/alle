@@ -36,13 +36,15 @@ const OfferDetail = () => {
   return (
     <>
       <AlleHeader />
-      <AlleBody>
-        <h1 className='text-emerald-400 text-5xl mt-5'>{offer?.company}</h1>
-        <p className='mt-5 text-slate-500 text-3xl'>
-          {offer?.shortdescription}
-        </p>
-        <p className='mt-5 text-slate-600 w-1/2'>{offer?.description}</p>
-        <p className='mt-5 text-slate-600 w-1/2'>{offer?.longdescription}</p>
+      <AlleBody className='flex-col'>
+        <div className='bg-white rounded-xl shadow-lg p-10 w-11/12 '>
+          <h1 className='text-emerald-400 text-5xl mt-5'>{offer?.company}</h1>
+          <p className='mt-5 text-slate-500 text-3xl'>
+            {offer?.shortdescription}
+          </p>
+          <p className='mt-5 text-slate-600 w-1/2'>{offer?.description}</p>
+          <p className='mt-5 text-slate-600 w-1/2'>{offer?.longdescription}</p>
+        </div>
       </AlleBody>
     </>
   );

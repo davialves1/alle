@@ -19,8 +19,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const AlleLogin = () => {
-  const navigate = useNavigate();
-
   const { user, setUser } = useContext(AppContext);
 
   auth.languageCode = 'br';
@@ -35,7 +33,6 @@ const AlleLogin = () => {
       .then((userCredential) => {
         if (userCredential) {
           setAlleUser(userCredential.user);
-          navigate('/');
         }
       })
       .catch((err) => console.warn(err));
@@ -43,7 +40,6 @@ const AlleLogin = () => {
     onAuthStateChanged(auth, (loggedUser) => {
       if (loggedUser) {
         setAlleUser(loggedUser);
-        navigate('/');
       }
     });
   }, []);
@@ -52,7 +48,6 @@ const AlleLogin = () => {
     signOut(auth)
       .then(() => setUser(null))
       .catch((e) => console.warn(e.message));
-    navigate('/');
   };
 
   return (

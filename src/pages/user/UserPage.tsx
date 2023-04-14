@@ -1,20 +1,21 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AppContext } from '../../common/AppContext';
 import AlleBody from '../../common/alle-ui/AlleBody';
 import AlleHeader from '../../common/alle-ui/AlleHeader';
 import CreateOffer from './CreateOffer';
-import { useNavigate } from 'react-router-dom';
 import { AlleUser } from '../../common/models/AlleUser';
+import { useNavigate } from 'react-router-dom';
 
 const UserPage = () => {
   const { user }: { user: AlleUser } = useContext(AppContext);
 
   const navigate = useNavigate();
 
-  if (!user || !user.email) {
-    navigate('/');
-    return <></>;
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+    }
+  }, [user]);
 
   return (
     <>
