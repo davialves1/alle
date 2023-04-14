@@ -14,7 +14,6 @@ import { AppContext } from '../AppContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../FirebaseConfig';
-import { AiOutlineGoogle } from 'react-icons/ai';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -44,6 +43,7 @@ const AlleLogin = () => {
     onAuthStateChanged(auth, (loggedUser) => {
       if (loggedUser) {
         setAlleUser(loggedUser);
+        navigate('/');
       }
     });
   }, []);

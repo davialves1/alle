@@ -52,7 +52,7 @@ function LoginPage() {
   };
 
   const onLogin = () => {
-    onLogout();
+    setUser(null);
     setPersistence(auth, browserSessionPersistence)
       .then(async () => {
         return signInWithRedirect(auth, provider).catch((e) =>
@@ -98,13 +98,17 @@ function LoginPage() {
               />
             </div>
             <div className='flex flex-col items-center justify-between'>
-              <button
+              {/* <button
                 className='bg-emerald-400 hover:bg-emerald-300 text-white font-bold py-2 px-4 rounded focus:outline-none w-full focus:shadow-outline'
                 type='submit'
               >
                 Login
-              </button>
+              </button> */}
+              <AlleButton className='py-4 w-full' type='submit'>
+                Login
+              </AlleButton>
               <AlleButton
+                type='button'
                 className='mt-5 w-full'
                 onClick={onLogin}
                 icon={<AiOutlineGoogle size={24} className='mr-4' />}
