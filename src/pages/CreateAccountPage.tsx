@@ -100,16 +100,16 @@ const CreateAccountPage = () => {
               <AlleButton className='py-4 w-full' type='submit'>
                 Criar uma nova conta
               </AlleButton>
-              <AlleButton
-                className='mt-5 w-full'
-                onClick={createGoogleAccount}
-                icon={<AiOutlineGoogle size={24} className='mr-4' />}
-                variant={ColorVariants.secondary}
-              >
-                Criar conta com Google
-              </AlleButton>
             </div>
           </form>
+          <AlleButton
+            className='mt-5 w-full'
+            onClick={createGoogleAccount}
+            icon={<AiOutlineGoogle size={24} className='mr-4' />}
+            variant={ColorVariants.secondary}
+          >
+            Criar conta com Google
+          </AlleButton>
         </div>
       </AlleBody>
     </>
