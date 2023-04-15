@@ -10,8 +10,8 @@ import {
 } from 'firebase/auth';
 import Avatar from '@mui/joy/Avatar/Avatar';
 import { AlleUser } from '../models/AlleUser';
-import { AppContext } from '../AppContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { AppContext } from '../store/AppContext';
+import { Link } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../FirebaseConfig';
 
@@ -35,7 +35,7 @@ const AlleLogin = () => {
           setAlleUser(userCredential.user);
         }
       })
-      .catch((err) => console.warn(err));
+      .catch((err) => console.warn('Error: ' + err.message));
 
     onAuthStateChanged(auth, (loggedUser) => {
       if (loggedUser) {
@@ -47,7 +47,7 @@ const AlleLogin = () => {
   const onLogout = () => {
     signOut(auth)
       .then(() => setUser(null))
-      .catch((e) => console.warn(e.message));
+      .catch((e) => console.warn('Error: ' + e.message));
   };
 
   return (
@@ -69,8 +69,8 @@ const AlleLogin = () => {
           <div className='flex items-center'>
             <p className='text-white me-5'>{user.displayName}</p>
             <Avatar
-              alt={user.displayName ? user.displayName : ''}
-              src={user.photoURL ? user.photoURL : ''}
+              alt={user.displayName ?? user.displayName}
+              src={user.photoURL ?? user.photoURL}
               color='neutral'
               variant='soft'
             />

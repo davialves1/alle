@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { AppContext } from '../../common/AppContext';
+import { AppContext } from '../../common/store/AppContext';
 import AlleBody from '../../common/alle-ui/AlleBody';
 import AlleHeader from '../../common/alle-ui/AlleHeader';
 import CreateOffer from './CreateOffer';

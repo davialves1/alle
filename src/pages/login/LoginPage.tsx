@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import {
   GoogleAuthProvider,
   browserSessionPersistence,
@@ -7,18 +7,21 @@ import {
   signInWithEmailAndPassword,
   signInWithRedirect,
 } from 'firebase/auth';
-import { AppContext } from '../common/AppContext';
-import { Link, useNavigate } from 'react-router-dom';
-import AlleHeader from '../common/alle-ui/AlleHeader';
 import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../FirebaseConfig';
-import AlleButton from '../common/alle-ui/AlleButton';
-import { ColorVariants } from '../common/models/ColorVariants';
 import { AiOutlineGoogle } from 'react-icons/ai';
-import AlleBody from '../common/alle-ui/AlleBody';
+import { useNavigate, Link } from 'react-router-dom';
+import { firebaseConfig } from '../../FirebaseConfig';
+import AlleBody from '../../common/alle-ui/AlleBody';
+import AlleButton from '../../common/alle-ui/AlleButton';
+import AlleHeader from '../../common/alle-ui/AlleHeader';
+import { ColorVariants } from '../../common/models/ColorVariants';
+import { AppContext } from '../../common/store/AppContext';
+import { getAlleUser } from '../../common/store/Reducers';
 
 function LoginPage() {
   const app = initializeApp(firebaseConfig);
+
+  const [loading, setLoading] = useState(false);
 
   const provider = new GoogleAuthProvider();
 
@@ -34,25 +37,38 @@ function LoginPage() {
 
   useEffect(() => {
     if (user) {
+      setLoading(false);
       navigate('/my-account');
     }
   }, [user]);
 
-  const handleSubmit = (e: any) => {
+  const onEmailPasswordLogin = (e: any) => {
     e.preventDefault();
+    setLoading(true);
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    setPersistence(auth, browserSessionPersistence).then(async (res) => {
-      return signInWithEmailAndPassword(auth, email, password)
-        .then((res) => {
-          setUser(res.user);
-          navigate('/');
-        })
-        .catch((err) => console.warn(err));
-    });
+    setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        return signInWithEmailAndPassword(auth, email, password)
+          .then((res) => {
+            const user = getAlleUser(res);
+            setUser(user);
+            setLoading(false);
+            navigate('/');
+          })
+          .catch((err) => {
+            setLoading(false);
+            console.warn(err.message);
+          });
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.warn(err.message);
+      });
   };
 
-  const onLogin = () => {
+  const onGoogleLogin = () => {
+    setLoading(true);
     setUser(null);
     setPersistence(auth, browserSessionPersistence)
       .then(async () => {
@@ -66,12 +82,12 @@ function LoginPage() {
   return (
     <>
       <AlleHeader />
-      <AlleBody>
+      <AlleBody loading={loading}>
         <div className='bg-white rounded-xl shadow-lg p-10 sm:w-10/12 md:w-1/2 xl:w-1/4'>
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Faça seu login
           </h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={onEmailPasswordLogin}>
             <div className='mb-4'>
               <label htmlFor='email' className='block text-gray-400 mb-2'>
                 Email
@@ -98,15 +114,15 @@ function LoginPage() {
                 required
               />
             </div>
-          </form>
-          <div className='flex flex-col items-center justify-between'>
             <AlleButton className='py-4 w-full' type='submit'>
               Login
             </AlleButton>
+          </form>
+          <div className='flex flex-col items-center justify-between'>
             <AlleButton
               type='button'
-              className='mt-5 w-full'
-              onClick={onLogin}
+              className='mt-5 w-full hidden'
+              onClick={onGoogleLogin}
               icon={<AiOutlineGoogle size={24} className='mr-4' />}
               variant={ColorVariants.secondary}
             >

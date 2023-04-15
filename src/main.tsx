@@ -5,10 +5,10 @@ import './index.css';
 import './App.sass';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import OfferDetail from './pages/OfferDetail';
-import ContextProvider from './common/AppContext';
+import ContextProvider from './common/store/AppContext';
 import UserPage from './pages/user/UserPage';
-import LoginPage from './pages/LoginPage';
-import CreateAccountPage from './pages/CreateAccountPage';
+import CreateAccountPage from './pages/login/CreateAccountPage';
+import LoginPage from './pages/login/LoginPage';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

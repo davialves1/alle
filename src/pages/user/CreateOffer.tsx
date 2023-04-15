@@ -3,7 +3,7 @@ import AlleButton from '../../common/alle-ui/AlleButton';
 const CreateOffer = () => {
   return (
     <>
-      <form className='bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mt-10 mb-5 sm:w-10/12 md:w-1/2 xl:w-1/4'>
+      <form className='bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mt-10 mb-5 sm:w-10/12 md:w-1/2 xl:w-1/4 hidden'>
         <h1 className='mt-3 text-emerald-500 mb-8 text-3xl'>Crie um anúncio</h1>
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-bold mb-2'>

@@ -1,5 +1,5 @@
 export interface AlleUser {
-  displayName: string;
-  email: string;
-  photoURL: string;
+  displayName: string | null;
+  email: string | null;
+  photoURL: string | null;
 }

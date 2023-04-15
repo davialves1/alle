@@ -2,7 +2,7 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Offer } from '../common/offer-model';
-import { AppContext } from '../common/AppContext';
+import { AppContext } from '../common/store/AppContext';
 import AlleBody from '../common/alle-ui/AlleBody';
 import AlleHeader from '../common/alle-ui/AlleHeader';
 import { initializeApp } from 'firebase/app';

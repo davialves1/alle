@@ -8,7 +8,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import { AppContext } from './common/AppContext';
+import { AppContext } from './common/store/AppContext';
 import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
 import AlleBody from './common/alle-ui/AlleBody';
 import AlleHeader from './common/alle-ui/AlleHeader';
