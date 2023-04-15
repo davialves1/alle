@@ -85,7 +85,7 @@ const AlleLogin = () => {
       {user && (
         <Link to='/my-account'>
           <div className='flex items-center'>
-            <p className='text-white me-5'>{user.displayName}</p>
+            <p className='text-white me-4'>{user.displayName}</p>
             <Avatar
               alt={user.displayName ? user.displayName : ''}
               src={user.photoURL ? user.photoURL : ''}

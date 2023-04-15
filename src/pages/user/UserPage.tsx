@@ -5,6 +5,7 @@ import AlleHeader from '../../common/alle-ui/AlleHeader';
 import CreateOffer from './CreateOffer';
 import { AlleUser } from '../../common/models/AlleUser';
 import { useNavigate } from 'react-router-dom';
+import { Input } from '@mui/joy';
 
 const UserPage = () => {
   const { user }: { user: AlleUser } = useContext(AppContext);
@@ -30,6 +31,7 @@ const UserPage = () => {
             precisa. Obrigado por se juntar a nós!
           </p>
           <CreateOffer />
+          <Input className='my-10' type='file' />
         </AlleBody>
       )}
     </>
