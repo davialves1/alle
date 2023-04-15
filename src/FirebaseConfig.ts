@@ -1,4 +1,6 @@
-export const firebaseConfig = {
+import { FirebaseOptions } from 'firebase/app';
+
+export const firebaseConfig: FirebaseOptions = {
   apiKey: 'AIzaSyDfY1ouoI4kirtJwJGwlGUkNY056THxPnU',
   authDomain: 'alemanha-para-brasileiros.firebaseapp.com',
   databaseURL: 'https://alemanha-para-brasileiros-default-rtdb.firebaseio.com',

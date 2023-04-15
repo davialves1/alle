@@ -14,11 +14,21 @@ import { AppContext } from '../store/AppContext';
 import { Link } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../FirebaseConfig';
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from 'firebase/firestore';
+import { getAlleUser } from '../store/Reducers';
 
 const AlleLogin = () => {
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
   const { user, setUser } = useContext(AppContext);
 
   auth.languageCode = 'br';
@@ -37,9 +47,17 @@ const AlleLogin = () => {
       })
       .catch((err) => console.warn('Error: ' + err.message));
 
-    onAuthStateChanged(auth, (loggedUser) => {
+    onAuthStateChanged(auth, async (loggedUser) => {
       if (loggedUser) {
-        setAlleUser(loggedUser);
+        const q = query(
+          collection(db, 'users'),
+          where('uid', '==', loggedUser.uid)
+        );
+        const docs = await getDocs(q);
+        const document = docs.docs[0].data();
+        const myUser = getAlleUser(loggedUser);
+        myUser.displayName = document.displayName;
+        setUser(myUser);
       }
     });
   }, []);
@@ -69,8 +87,8 @@ const AlleLogin = () => {
           <div className='flex items-center'>
             <p className='text-white me-5'>{user.displayName}</p>
             <Avatar
-              alt={user.displayName ?? user.displayName}
-              src={user.photoURL ?? user.photoURL}
+              alt={user.displayName ? user.displayName : ''}
+              src={user.photoURL ? user.photoURL : ''}
               color='neutral'
               variant='soft'
             />

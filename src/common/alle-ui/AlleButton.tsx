@@ -28,13 +28,12 @@ const AlleButton = ({
     }
   };
 
+  const iconStyle = icon ? 'flex items-center justify-center' : '';
+
+  const classes = `${bg()} py-3 px-4 rounded-lg text-sm font-semibold ${className} ${iconStyle}`;
+
   return (
-    <button
-      onClick={onClick}
-      className={`${bg()} py-3 px-4 rounded-lg text-sm font-semibold ${className} ${
-        icon ? 'flex items-center justify-center' : ''
-      }`}
-    >
+    <button onClick={onClick} className={classes}>
       {icon && icon}
       {children}
     </button>

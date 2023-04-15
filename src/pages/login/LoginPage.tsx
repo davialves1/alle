@@ -51,7 +51,7 @@ function LoginPage() {
       .then(async () => {
         return signInWithEmailAndPassword(auth, email, password)
           .then((res) => {
-            const user = getAlleUser(res);
+            const user = getAlleUser(res.user);
             setUser(user);
             setLoading(false);
             navigate('/');

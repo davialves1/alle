@@ -40,17 +40,25 @@ const CreateAccountPage = () => {
 
   const emailRef = useRef<any>();
 
+  const nameRef = useRef<any>();
+
   const passwordRef = useRef<any>();
 
   const createAccountEmailPassword = (e: any) => {
     e.preventDefault();
     setLoading(true);
+    const name = nameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     setPersistence(auth, browserSessionPersistence).then(async () => {
       return createUserWithEmailAndPassword(auth, email, password)
         .then(async (res) => {
-          const alleUser = getAlleUser(res);
+          const alleUser = getAlleUser(res.user);
+          alleUser.displayName = name;
+          await addDoc(collection(db, 'users'), {
+            uid: res.user.uid,
+            ...alleUser,
+          });
           setUser(alleUser);
           setLoading(false);
           navigate('/');
@@ -89,12 +97,26 @@ const CreateAccountPage = () => {
           <form onSubmit={createAccountEmailPassword}>
             <div className='mb-4'>
               <label htmlFor='email' className='block text-gray-400 mb-2'>
+                Name
+              </label>
+              <input
+                type='name'
+                id='name'
+                name='name'
+                className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                ref={nameRef}
+                required
+              />
+            </div>
+            <div className='mb-4'>
+              <label htmlFor='email' className='block text-gray-400 mb-2'>
                 Email
               </label>
-              <Input
+              <input
                 type='email'
                 id='email'
                 name='email'
+                className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 ref={emailRef}
                 required
               />
@@ -103,10 +125,11 @@ const CreateAccountPage = () => {
               <label htmlFor='password' className='block text-gray-400 mb-2'>
                 Password
               </label>
-              <Input
+              <input
                 type='password'
                 id='password'
                 name='password'
+                className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 ref={passwordRef}
                 required
               />
