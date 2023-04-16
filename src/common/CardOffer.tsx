@@ -14,7 +14,10 @@ import { ColorVariants } from './models/ColorVariants';
 const CardOffer = ({ offer }: { offer: Offer }) => {
   return (
     <Link to={`offer-detail/${offer.offerId}`}>
-      <Card variant='outlined' sx={{ width: 320, margin: 1, height: 340 }}>
+      <Card
+        variant='plain'
+        sx={{ width: 320, margin: 1, height: 340, padding: 3 }}
+      >
         <h2 className='text-emerald-500 bold text-xl truncate'>
           {offer.company}
         </h2>

@@ -91,8 +91,8 @@ const CreateAccountPage = () => {
   return (
     <>
       <AlleHeader />
-      <AlleBody loading={loading} style={{ height: `calc(100vh - 75px)` }}>
-        <div className='bg-white rounded-xl p-10 w-screen md:w-1/2 xl:w-1/4 pb-16'>
+      <AlleBody loading={loading}>
+        <div className='bg-white rounded-xl p-10 w-screen md:w-1/2 xl:w-1/4 h-fit'>
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Criar uma conta
           </h2>
