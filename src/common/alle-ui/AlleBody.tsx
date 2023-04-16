@@ -11,8 +11,7 @@ const AlleBody = ({
 }) => {
   return (
     <div
-      style={{ minHeight: 'calc(100vh - 80px)' }}
-      className={`flex justify-items-center items-center justify-center bg-slate-200 px-4 ${className}`}
+      className={`flex justify-items-center items-center justify-center bg-slate-200 p-4 min-h-screen h-full ${className}`}
     >
       {loading ? <CircularProgress /> : children}
     </div>

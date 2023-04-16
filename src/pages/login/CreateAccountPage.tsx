@@ -7,7 +7,7 @@ import {
   signOut,
   GoogleAuthProvider,
 } from 'firebase/auth';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../common/store/AppContext';
 import AlleHeader from '../../common/alle-ui/AlleHeader';
@@ -17,17 +17,21 @@ import AlleBody from '../../common/alle-ui/AlleBody';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import AlleButton from '../../common/alle-ui/AlleButton';
 import { ColorVariants } from '../../common/models/ColorVariants';
-import { Input } from '@mui/joy';
+import { Autocomplete, Input } from '@mui/joy';
 import { getAlleUser } from '../../common/store/Reducers';
-import {
-  addDoc,
-  collection,
-  doc,
-  getFirestore,
-  setDoc,
-} from 'firebase/firestore';
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { germanCities } from '../../common/models/GermanCities';
 const CreateAccountPage = () => {
   const [loading, setLoading] = useState(false);
+
+  const initialState = {
+    name: '',
+    city: '',
+    email: '',
+    password: '',
+  };
+
+  const [form, setForm] = useState(initialState);
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -38,23 +42,16 @@ const CreateAccountPage = () => {
 
   const navigate = useNavigate();
 
-  const emailRef = useRef<any>();
-
-  const nameRef = useRef<any>();
-
-  const passwordRef = useRef<any>();
-
   const createAccountEmailPassword = (e: any) => {
     e.preventDefault();
     setLoading(true);
-    const name = nameRef.current.value;
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+    const { name, city, email, password } = form;
     setPersistence(auth, browserSessionPersistence).then(async () => {
       return createUserWithEmailAndPassword(auth, email, password)
         .then(async (res) => {
           const alleUser = getAlleUser(res.user);
           alleUser.displayName = name;
+          alleUser.city = city;
           await addDoc(collection(db, 'users'), {
             uid: res.user.uid,
             ...alleUser,
@@ -68,6 +65,11 @@ const CreateAccountPage = () => {
           console.warn('Error: ' + err.message);
         });
     });
+  };
+
+  const updateForm = (e: any, key: string) => {
+    const value = key === 'city' ? e.target.innerText : e.target.value;
+    setForm((prevState) => ({ ...prevState, [key]: value }));
   };
 
   const onLogout = () => {
@@ -90,7 +92,7 @@ const CreateAccountPage = () => {
     <>
       <AlleHeader />
       <AlleBody loading={loading}>
-        <div className='bg-white rounded-xl shadow-lg p-10 sm:w-10/12 md:w-1/2 xl:w-1/4 pb-16'>
+        <div className='bg-white rounded-xl p-10 w-screen md:w-1/2 xl:w-1/4 pb-16'>
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Criar uma conta
           </h2>
@@ -99,38 +101,55 @@ const CreateAccountPage = () => {
               <label htmlFor='email' className='block text-gray-400 mb-2'>
                 Name
               </label>
-              <input
+              <Input
                 type='name'
+                size='lg'
                 id='name'
                 name='name'
+                onChange={(e) => updateForm(e, 'name')}
                 className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                ref={nameRef}
                 required
+              />
+            </div>
+            <div className='mb-4'>
+              <label htmlFor='city' className='block text-gray-400 mb-2'>
+                Cidade onde mora
+              </label>
+              <Autocomplete
+                type='city'
+                size='lg'
+                id='city'
+                name='city'
+                onChange={(e) => updateForm(e, 'city')}
+                required
+                options={germanCities}
               />
             </div>
             <div className='mb-4'>
               <label htmlFor='email' className='block text-gray-400 mb-2'>
                 Email
               </label>
-              <input
+              <Input
                 type='email'
                 id='email'
+                size='lg'
                 name='email'
+                onChange={(e) => updateForm(e, 'email')}
                 className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                ref={emailRef}
                 required
               />
             </div>
             <div className='mb-6'>
               <label htmlFor='password' className='block text-gray-400 mb-2'>
-                Password
+                Senha
               </label>
-              <input
+              <Input
                 type='password'
                 id='password'
+                size='lg'
                 name='password'
+                onChange={(e) => updateForm(e, 'password')}
                 className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                ref={passwordRef}
                 required
               />
             </div>

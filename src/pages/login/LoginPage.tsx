@@ -17,11 +17,18 @@ import AlleHeader from '../../common/alle-ui/AlleHeader';
 import { ColorVariants } from '../../common/models/ColorVariants';
 import { AppContext } from '../../common/store/AppContext';
 import { getAlleUser } from '../../common/store/Reducers';
+import { Input } from '@mui/joy';
 
 function LoginPage() {
   const app = initializeApp(firebaseConfig);
 
+  const [email, setEmail] = useState('');
+
+  const [password, setPassword] = useState('');
+
   const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState(false);
 
   const provider = new GoogleAuthProvider();
 
@@ -30,10 +37,6 @@ function LoginPage() {
   const { user, setUser } = useContext(AppContext);
 
   const navigate = useNavigate();
-
-  const emailRef = useRef<any>();
-
-  const passwordRef = useRef<any>();
 
   useEffect(() => {
     if (user) {
@@ -45,8 +48,6 @@ function LoginPage() {
   const onEmailPasswordLogin = (e: any) => {
     e.preventDefault();
     setLoading(true);
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
     setPersistence(auth, browserSessionPersistence)
       .then(async () => {
         return signInWithEmailAndPassword(auth, email, password)
@@ -56,14 +57,16 @@ function LoginPage() {
             setLoading(false);
             navigate('/');
           })
-          .catch((err) => {
+          .catch((error) => {
+            setError(true);
             setLoading(false);
-            console.warn(err.message);
+            console.warn(error);
           });
       })
-      .catch((err) => {
+      .catch((error) => {
+        setError(true);
         setLoading(false);
-        console.warn(err.message);
+        console.warn(error);
       });
   };
 
@@ -72,32 +75,45 @@ function LoginPage() {
     setUser(null);
     setPersistence(auth, browserSessionPersistence)
       .then(async () => {
-        return signInWithRedirect(auth, provider).catch((e) =>
-          console.warn(e.message)
-        );
+        return signInWithRedirect(auth, provider).catch((error) => {
+          setError(true);
+          setLoading(false);
+          console.warn(error);
+        });
       })
-      .catch((er) => console.warn(er));
+      .catch((error) => {
+        setError(true);
+        setLoading(false);
+        console.warn(error);
+      });
   };
 
   return (
     <>
       <AlleHeader />
       <AlleBody loading={loading}>
-        <div className='bg-white rounded-xl shadow-lg p-10 sm:w-10/12 md:w-1/2 xl:w-1/4'>
+        <div className='bg-white rounded-xl p-10 w-screen md:w-1/2 xl:w-1/4'>
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Faça seu login
           </h2>
           <form onSubmit={onEmailPasswordLogin}>
+            {error && (
+              <div className='bg-red-100 p-4 my-5 text-red-900 rounded-lg'>
+                Email ou senha inválidos.
+              </div>
+            )}
             <div className='mb-4'>
               <label htmlFor='email' className='block text-gray-400 mb-2'>
                 Email
               </label>
-              <input
+              <Input
+                onChange={(e) => setEmail(e.target.value)}
+                size='lg'
                 type='email'
                 id='email'
                 name='email'
-                ref={emailRef}
-                className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                error={error}
+                onFocus={() => setError(false)}
                 required
               />
             </div>
@@ -105,12 +121,14 @@ function LoginPage() {
               <label htmlFor='password' className='block text-gray-400 mb-2'>
                 Password
               </label>
-              <input
+              <Input
+                onChange={(e) => setPassword(e.target.value)}
+                onFocus={() => setError(false)}
+                size='lg'
                 type='password'
                 id='password'
                 name='password'
-                ref={passwordRef}
-                className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                error={error}
                 required
               />
             </div>

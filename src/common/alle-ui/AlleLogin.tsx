@@ -57,6 +57,7 @@ const AlleLogin = () => {
         const document = docs.docs[0].data();
         const myUser = getAlleUser(loggedUser);
         myUser.displayName = document.displayName;
+        myUser.city = document.city;
         setUser(myUser);
       }
     });

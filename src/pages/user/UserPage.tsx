@@ -18,8 +18,6 @@ const UserPage = () => {
     }
   }, [user]);
 
-  console.log('');
-
   return (
     <>
       <AlleHeader />
