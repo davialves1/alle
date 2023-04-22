@@ -96,7 +96,7 @@ function LoginPage() {
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Faça seu login
           </h2>
-          <form onSubmit={onEmailPasswordLogin}>
+          <form autoComplete='on' autoSave='on' onSubmit={onEmailPasswordLogin}>
             {error && (
               <div className='bg-red-100 p-4 my-5 text-red-900 rounded-lg'>
                 Email ou senha inválidos.
@@ -110,6 +110,7 @@ function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 size='lg'
                 type='email'
+                autoComplete='email'
                 id='email'
                 name='email'
                 error={error}
@@ -125,6 +126,7 @@ function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 onFocus={() => setError(false)}
                 size='lg'
+                autoComplete='current-password'
                 type='password'
                 id='password'
                 name='password'

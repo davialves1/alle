@@ -53,7 +53,6 @@ const CreateAccountPage = () => {
           alleUser.displayName = name;
           alleUser.city = city;
           await addDoc(collection(db, 'users'), {
-            uid: res.user.uid,
             ...alleUser,
           });
           setUser(alleUser);
@@ -96,7 +95,7 @@ const CreateAccountPage = () => {
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Criar uma conta
           </h2>
-          <form onSubmit={createAccountEmailPassword}>
+          <form autoComplete='on' onSubmit={createAccountEmailPassword}>
             <div className='mb-4'>
               <label htmlFor='email' className='block text-gray-400 mb-2'>
                 Name
@@ -106,6 +105,7 @@ const CreateAccountPage = () => {
                 size='lg'
                 id='name'
                 name='name'
+                autoComplete='given-name'
                 onChange={(e) => updateForm(e, 'name')}
                 className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 required
@@ -131,6 +131,7 @@ const CreateAccountPage = () => {
               </label>
               <Input
                 type='email'
+                autoComplete='email'
                 id='email'
                 size='lg'
                 name='email'
@@ -147,6 +148,7 @@ const CreateAccountPage = () => {
                 type='password'
                 id='password'
                 size='lg'
+                autoComplete='new-password'
                 name='password'
                 onChange={(e) => updateForm(e, 'password')}
                 className='appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
