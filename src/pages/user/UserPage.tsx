@@ -46,26 +46,24 @@ const UserPage = () => {
 
   const navigate = useNavigate();
 
-  const firebaseStoragePath = 'gs://alemanha-para-brasileiros.appspot.com/';
-
   useEffect(() => {
     if (!user) {
       navigate('/');
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
-    if (user.uid) {
+    if (user && user.uid) {
       loadImage();
     }
   }, [imageForm]);
 
   const loadImage = async () => {
-    const q = query(collection(db, 'users'), where('uid', '==', user.uid));
-    const imageName = (await getDocs(q)).docs[0].data().image;
-    const path = `users/${user.uid}/${imageName}`;
-    const imageRef = ref(storage, path);
-    const url = await getDownloadURL(imageRef);
+    // const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+    // const imageName = (await getDocs(q)).docs[0].data().image;
+    // const path = `users/${user.uid}/${imageName}`;
+    // const imageRef = ref(storage, path);
+    // const url = await getDownloadURL(imageRef);
 
     listAll(ref(storage, `users/${user.uid}/`)).then((bucket) => {
       const paths = bucket.items.map((item) =>
@@ -74,7 +72,7 @@ const UserPage = () => {
       Promise.all(paths).then((images) => setImageList(images));
     });
 
-    setImage(url);
+    // setImage(url);
   };
 
   const handleSubmit = async () => {
@@ -103,13 +101,44 @@ const UserPage = () => {
     return { file, name, type };
   };
 
+  const previous = (i: number) => {
+    if (imageList) {
+      return i === 0 ? imageList.length - 1 : i - 1;
+    }
+  };
+
+  const next = (i: number) => {
+    if (imageList) {
+      return i === imageList.length - 1 ? 0 : i + 1;
+    }
+  };
+
   return (
     <>
       <AlleHeader />
       {user && (
-        <AlleBody loading={loading} className='flex-col px-10'>
-          {imageList &&
-            imageList.map((image) => <img key={image} src={image} />)}
+        <AlleBody loading={loading} className='flex-col px-5'>
+          {imageList && (
+            <div className='carousel w-full'>
+              {imageList.map((image, i) => (
+                <div
+                  key={i + image}
+                  id={'slide' + i}
+                  className='carousel-item relative w-full'
+                >
+                  <img key={image} src={image} className='w-full rounded-lg' />
+                  <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
+                    <a href={'#slide' + previous(i)} className='btn btn-circle'>
+                      ❮
+                    </a>
+                    <a href={'#slide' + next(i)} className='btn btn-circle'>
+                      ❯
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           <h2 className='text-2xl text-slate-600 mt-3'>
             Olá {user.displayName}
           </h2>
