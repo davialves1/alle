@@ -127,9 +127,9 @@ const UserPage = () => {
                 <div
                   key={i + image}
                   id={'slide' + i}
-                  className='carousel-item relative w-full'
+                  className='carousel-item relative w-5/6'
                 >
-                  <img key={image} src={image} className='w-full rounded-lg' />
+                  <img key={image} src={image} className='w-full p-0.5' />
                   <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
                     {/* <a
                       href={'#slide' + previous(i)}
