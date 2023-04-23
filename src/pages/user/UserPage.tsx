@@ -32,12 +32,14 @@ const UserPage = () => {
           Estamos felizes em tê-lo(a) aqui e esperamos que encontre tudo o que
           precisa. Obrigado por se juntar a nós!
         </p>
+
         <p className='text-slate-500 text-sm'>
           Você reside em {user.city},{' '}
           <Link to='/' className='text-emerald-500 underline'>
             veja as ofertas disponíveis na sua cidade.
           </Link>
         </p>
+        <div className='divider' />
         <CreateOfferCard />
       </AlleBody>
     </>
