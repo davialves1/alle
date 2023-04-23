@@ -117,7 +117,10 @@ const UserPage = () => {
     <>
       <AlleHeader />
       {user && (
-        <AlleBody loading={loading} className='flex-col px-5'>
+        <AlleBody loading={loading} className='flex-col px-5 min-h-screen'>
+          <h2 className='text-2xl text-slate-600 my-3'>
+            Olá {user.displayName}
+          </h2>
           {imageList && (
             <div className='carousel w-full'>
               {imageList.map((image, i) => (
@@ -128,20 +131,20 @@ const UserPage = () => {
                 >
                   <img key={image} src={image} className='w-full rounded-lg' />
                   <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
-                    <a href={'#slide' + previous(i)} className='btn btn-circle'>
+                    {/* <a
+                      href={'#slide' + previous(i)}
+                      className='btn btn-circle opacity-30 hover:opacity-95'
+                    >
                       ❮
                     </a>
                     <a href={'#slide' + next(i)} className='btn btn-circle'>
                       ❯
-                    </a>
+                    </a> */}
                   </div>
                 </div>
               ))}
             </div>
           )}
-          <h2 className='text-2xl text-slate-600 mt-3'>
-            Olá {user.displayName}
-          </h2>
           <p className='mt-5 text-slate-500 text-sm'>
             Estamos felizes em tê-lo(a) aqui e esperamos que encontre tudo o que
             precisa. Obrigado por se juntar a nós!
@@ -153,7 +156,9 @@ const UserPage = () => {
             className='my-5 file-input file-input-bordered file-input-success w-full max-w-xs'
             type='file'
           />
-          <Button onClick={handleSubmit}>Send image</Button>
+          <button className='btn btn-success' onClick={handleSubmit}>
+            Send image
+          </button>
         </AlleBody>
       )}
     </>

@@ -16,7 +16,7 @@ const AlleBody = ({
   return (
     <div
       style={style}
-      className={` flex justify-items-center ${itemsCenter} justify-center bg-slate-200 p-4 min-h-screen h-full ${className}`}
+      className={`flex justify-items-center ${itemsCenter} bg-slate-200 p-4 h-full ${className}`}
     >
       {loading ? <CircularProgress /> : children}
     </div>
