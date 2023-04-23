@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { Offer } from '../offer-model';
+import { Offer } from '../models/OfferModel';
 import { AlleUser } from '../models/AlleUser';
 
 export const AppContext = createContext<any>(null);

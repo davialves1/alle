@@ -12,11 +12,11 @@ const AlleBody = ({
   loading?: boolean;
   style?: CSSProperties;
 }) => {
-  const itemsCenter = loading ? 'items-center justify-center' : '';
+  const itemsCenter = loading ? 'items-center justify-center h-screen' : '';
   return (
     <div
       style={style}
-      className={`flex justify-items-center ${itemsCenter} bg-slate-200 p-4 h-full ${className}`}
+      className={`flex justify-items-center ${itemsCenter} overflow-x-hidden bg-slate-100 p-4 h-full md:min-h-screen md:items-center ${className}`}
     >
       {loading ? <CircularProgress /> : children}
     </div>

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import CardOffer from './common/CardOffer';
-import { Offer } from './common/offer-model';
+import { Offer } from './common/models/OfferModel';
 import {
   collection,
   getDocs,
@@ -9,7 +9,6 @@ import {
   where,
 } from 'firebase/firestore';
 import { AppContext } from './common/store/AppContext';
-import CircularProgress from '@mui/joy/CircularProgress/CircularProgress';
 import AlleBody from './common/alle-ui/AlleBody';
 import AlleHeader from './common/alle-ui/AlleHeader';
 import { initializeApp } from 'firebase/app';
@@ -45,12 +44,10 @@ function App() {
   return (
     <>
       <AlleHeader />
-      <AlleBody className='flex flex-wrap'>
-        {loading && <CircularProgress color='neutral' />}
-        {!loading &&
-          offers.map((offer: Offer) => (
-            <CardOffer key={offer._id} offer={offer} />
-          ))}
+      <AlleBody loading={loading} className='flex flex-wrap justify-center'>
+        {offers.map((offer: Offer) => (
+          <CardOffer key={offer._id} offer={offer} />
+        ))}
       </AlleBody>
     </>
   );

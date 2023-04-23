@@ -1,11 +1,11 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import {
   GoogleAuthProvider,
-  browserSessionPersistence,
   getAuth,
   setPersistence,
   signInWithEmailAndPassword,
   signInWithRedirect,
+  browserLocalPersistence,
 } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { AiOutlineGoogle } from 'react-icons/ai';
@@ -48,7 +48,7 @@ function LoginPage() {
   const onEmailPasswordLogin = (e: any) => {
     e.preventDefault();
     setLoading(true);
-    setPersistence(auth, browserSessionPersistence)
+    setPersistence(auth, browserLocalPersistence)
       .then(async () => {
         return signInWithEmailAndPassword(auth, email, password)
           .then((res) => {
@@ -73,7 +73,7 @@ function LoginPage() {
   const onGoogleLogin = () => {
     setLoading(true);
     setUser(null);
-    setPersistence(auth, browserSessionPersistence)
+    setPersistence(auth, browserLocalPersistence)
       .then(async () => {
         return signInWithRedirect(auth, provider).catch((error) => {
           setError(true);
@@ -91,8 +91,8 @@ function LoginPage() {
   return (
     <>
       <AlleHeader />
-      <AlleBody loading={loading}>
-        <div className='bg-white rounded-xl p-10 w-screen md:w-1/2 xl:w-1/4 h-fit'>
+      <AlleBody loading={loading} className='justify-center'>
+        <div className='bg-white rounded-xl p-10 w-screen md:w-1/2 xl:w-2/4 h-fit'>
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Faça seu login
           </h2>

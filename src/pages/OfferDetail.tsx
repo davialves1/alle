@@ -1,7 +1,7 @@
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Offer } from '../common/offer-model';
+import { Offer } from '../common/models/OfferModel';
 import { AppContext } from '../common/store/AppContext';
 import AlleBody from '../common/alle-ui/AlleBody';
 import AlleHeader from '../common/alle-ui/AlleHeader';
