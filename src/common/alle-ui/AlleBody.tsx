@@ -12,7 +12,7 @@ const AlleBody = ({
   loading?: boolean;
   style?: CSSProperties;
 }) => {
-  const itemsCenter = loading ? 'items-center' : '';
+  const itemsCenter = loading ? 'items-center justify-center' : '';
   return (
     <div
       style={style}

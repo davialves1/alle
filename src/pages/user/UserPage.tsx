@@ -5,8 +5,10 @@ import AlleHeader from '../../common/alle-ui/AlleHeader';
 import CreateOffer from './CreateOffer';
 import { AlleUser } from '../../common/models/AlleUser';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input } from '@mui/joy';
+import { FiTrash } from 'react-icons/fi';
+import { BsCamera } from 'react-icons/bs';
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   listAll,
@@ -36,9 +38,9 @@ const UserPage = () => {
 
   const db = getFirestore(app);
 
-  const [image, setImage] = useState<string>();
-
-  const [imageList, setImageList] = useState<string[]>();
+  const [imageList, setImageList] = useState<{ path: string; url: string }[]>(
+    []
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -66,13 +68,15 @@ const UserPage = () => {
     // const url = await getDownloadURL(imageRef);
 
     listAll(ref(storage, `users/${user.uid}/`)).then((bucket) => {
-      const paths = bucket.items.map((item) =>
-        getDownloadURL(ref(storage, item.fullPath))
-      );
-      Promise.all(paths).then((images) => setImageList(images));
+      const paths = bucket.items.map(async (item) => ({
+        path: item.fullPath,
+        url: await getDownloadURL(ref(storage, item.fullPath)),
+      }));
+      Promise.all(paths).then((images) => {
+        setLoading(false);
+        setImageList(images);
+      });
     });
-
-    // setImage(url);
   };
 
   const handleSubmit = async () => {
@@ -84,7 +88,7 @@ const UserPage = () => {
         const q = query(collection(db, 'users'), where('uid', '==', user.uid));
         const docReference = (await getDocs(q)).docs[0].ref;
         updateDoc(docReference, { image: snapshot.ref.name })
-          .then(() => setLoading(false))
+          .then(() => loadImage())
           .catch((error) => {
             setLoading(false);
             console.warn(error);
@@ -101,16 +105,20 @@ const UserPage = () => {
     return { file, name, type };
   };
 
-  const previous = (i: number) => {
-    if (imageList) {
-      return i === 0 ? imageList.length - 1 : i - 1;
-    }
-  };
-
-  const next = (i: number) => {
-    if (imageList) {
-      return i === imageList.length - 1 ? 0 : i + 1;
-    }
+  const deleteImage = (image: { path: string; url: string }) => {
+    setLoading(true);
+    const imageRef = ref(storage, image.path);
+    deleteObject(imageRef)
+      .then(() => {
+        setLoading(false);
+        setImageList((prevState) => {
+          const index = prevState?.findIndex((img) => img.path === image.path);
+          const next = [...prevState];
+          next.splice(index, 1);
+          return next;
+        });
+      })
+      .catch((error) => console.warn(error));
   };
 
   return (
@@ -121,25 +129,32 @@ const UserPage = () => {
           <h2 className='text-2xl text-slate-600 my-3'>
             Olá {user.displayName}
           </h2>
+          {imageList.length === 0 && (
+            <div className='bg-slate-100 rounded-xl p-20 flex flex-col justify-center items-center text-center'>
+              <BsCamera size={48} />
+              No momento você não possui nenhuma foto.
+            </div>
+          )}
           {imageList && (
             <div className='carousel w-full'>
               {imageList.map((image, i) => (
                 <div
-                  key={i + image}
+                  key={i + image.url}
                   id={'slide' + i}
-                  className='carousel-item relative w-5/6'
+                  className='carousel-item relative w-5/6 h-fit'
                 >
-                  <img key={image} src={image} className='w-full p-0.5' />
-                  <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2'>
-                    {/* <a
-                      href={'#slide' + previous(i)}
-                      className='btn btn-circle opacity-30 hover:opacity-95'
+                  <img
+                    key={image.url}
+                    src={image.url}
+                    className='w-full p-0.5'
+                  />
+                  <div className='absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-10'>
+                    <a
+                      onClick={() => deleteImage(image)}
+                      className='btn btn-circle'
                     >
-                      ❮
+                      <FiTrash />
                     </a>
-                    <a href={'#slide' + next(i)} className='btn btn-circle'>
-                      ❯
-                    </a> */}
                   </div>
                 </div>
               ))}
