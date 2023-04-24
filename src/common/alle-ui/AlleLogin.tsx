@@ -3,7 +3,6 @@ import AlleButton from './AlleButton';
 import { ColorVariants } from '../models/ColorVariants';
 import {
   getAuth,
-  signOut,
   User,
   getRedirectResult,
   onAuthStateChanged,
@@ -16,8 +15,6 @@ import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../../FirebaseConfig';
 import {
   collection,
-  doc,
-  getDoc,
   getDocs,
   getFirestore,
   query,
@@ -63,12 +60,6 @@ const AlleLogin = () => {
     });
   }, []);
 
-  const onLogout = () => {
-    signOut(auth)
-      .then(() => setUser(null))
-      .catch((e) => console.warn('Error: ' + e.message));
-  };
-
   return (
     <div className='justify-end'>
       {!user && (
@@ -87,24 +78,11 @@ const AlleLogin = () => {
         <Link to='/my-account'>
           <div className='flex items-center'>
             <div className='avatar'>
-              <div className='rounded-full w-3 h-3 absolute right-0  border-2 border-white bg-red-600' />
+              <div className='rounded-full w-3.5 h-3.5 absolute right-1 z-10 border-2 border-white bg-orange-600' />
               <div className='w-12 rounded-full'>
-                <img src={user.photoURL ? user.photoURL : ''} />
+                <Avatar src={user.photoURL} />
               </div>
             </div>
-            {/* <Avatar
-              alt={user.displayName ? user.displayName : ''}
-              src={user.photoURL ? user.photoURL : ''}
-              color='neutral'
-              variant='soft'
-            /> */}
-            <AlleButton
-              className='ms-5 hidden'
-              variant={ColorVariants.outline}
-              onClick={onLogout}
-            >
-              Logout
-            </AlleButton>
           </div>
         </Link>
       )}
