@@ -28,12 +28,8 @@ const UserPage = () => {
       <AlleHeader />
       <AlleBody loading={loading} className='flex-col px-5 min-h-screen'>
         <h2 className='text-2xl text-slate-600 mt-5'>Olá {user.displayName}</h2>
-        <p className='mt-2 text-slate-500 text-sm'>
-          Estamos felizes em tê-lo(a) aqui e esperamos que encontre tudo o que
-          precisa. Obrigado por se juntar a nós!
-        </p>
 
-        <p className='text-slate-500 text-sm'>
+        <p className='text-slate-500 text-sm mt-5'>
           Você reside em {user.city},{' '}
           <Link to='/' className='text-emerald-500 underline'>
             veja as ofertas disponíveis na sua cidade.

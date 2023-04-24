@@ -86,15 +86,20 @@ const AlleLogin = () => {
       {user && (
         <Link to='/my-account'>
           <div className='flex items-center'>
-            <p className='text-white me-4'>{user.displayName}</p>
-            <Avatar
+            <div className='avatar'>
+              <div className='rounded-full w-3 h-3 absolute right-0  border-2 border-white bg-red-600' />
+              <div className='w-12 rounded-full'>
+                <img src={user.photoURL ? user.photoURL : ''} />
+              </div>
+            </div>
+            {/* <Avatar
               alt={user.displayName ? user.displayName : ''}
               src={user.photoURL ? user.photoURL : ''}
               color='neutral'
               variant='soft'
-            />
+            /> */}
             <AlleButton
-              className='ms-5'
+              className='ms-5 hidden'
               variant={ColorVariants.outline}
               onClick={onLogout}
             >
