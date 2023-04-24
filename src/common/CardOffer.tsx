@@ -1,3 +1,4 @@
+import AlleButton from './alle-ui/AlleButton';
 import { Offer } from './models/OfferModel';
 import { Link } from 'react-router-dom';
 
@@ -17,9 +18,7 @@ const CardOffer = ({ offer }: { offer: Offer }) => {
           </h2>
           <p>{offer.shortdescription}</p>
           <div className='card-actions mt-3'>
-            <button className='btn btn-primary text-emerald-50'>
-              Saiba mais
-            </button>
+            <AlleButton>Saiba mais</AlleButton>
           </div>
         </div>
       </div>

@@ -12,12 +12,12 @@ import { AiOutlineGoogle } from 'react-icons/ai';
 import { useNavigate, Link } from 'react-router-dom';
 import { firebaseConfig } from '../../FirebaseConfig';
 import AlleBody from '../../common/alle-ui/AlleBody';
-import AlleButton from '../../common/alle-ui/AlleButton';
 import AlleHeader from '../../common/alle-ui/AlleHeader';
 import { ColorVariants } from '../../common/models/ColorVariants';
 import { AppContext } from '../../common/store/AppContext';
 import { getAlleUser } from '../../common/store/Reducers';
 import { Input } from '@mui/joy';
+import AlleButton from '../../common/alle-ui/AlleButton';
 
 function LoginPage() {
   const app = initializeApp(firebaseConfig);
@@ -91,7 +91,7 @@ function LoginPage() {
   return (
     <>
       <AlleHeader />
-      <AlleBody loading={loading} className='justify-center'>
+      <AlleBody loading={loading} className='justify-center overflow-hidden'>
         <div className='bg-white rounded-xl p-10 w-screen md:w-1/2 xl:w-2/4 h-fit'>
           <h2 className='text-xl mb-8 text-center text-slate-600'>
             Faça seu login

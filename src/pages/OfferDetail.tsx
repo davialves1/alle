@@ -37,7 +37,7 @@ const OfferDetail = () => {
     <>
       <AlleHeader />
       <AlleBody className='flex-col'>
-        <div className='bg-white rounded-xl shadow-lg p-10 w-11/12 my-10 mx-auto'>
+        <div className='bg-white rounded-xl shadow-lg p-10 my-5 mx-auto'>
           <h1 className='text-emerald-400 text-4xl mt-5'>{offer?.company}</h1>
           <p className='mt-5 text-slate-500 text-2xl'>
             {offer?.shortdescription}

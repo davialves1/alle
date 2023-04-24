@@ -9,6 +9,7 @@ import ContextProvider from './common/store/AppContext';
 import UserPage from './pages/user/UserPage';
 import CreateAccountPage from './pages/login/CreateAccountPage';
 import LoginPage from './pages/login/LoginPage';
+import CreateOffer from './pages/user/CreateOffer';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route path='offer-detail/:offerId' element={<OfferDetail />} />
           <Route path='my-account' element={<UserPage />} />
           <Route path='login' element={<LoginPage />} />
+          <Route path='new-offer' element={<CreateOffer />} />
           <Route path='new-account' element={<CreateAccountPage />} />
         </Routes>
       </ContextProvider>
