@@ -23,14 +23,18 @@ const UserPage = () => {
   return (
     <>
       <AlleHeader />
-      <AlleBody loading={loading} className='flex-col px-5 min-h-screen '>
-        <h2 className='text-2xl text-slate-600 mt-5'>Olá {user.displayName}</h2>
-        <p className='text-slate-500 text-sm mt-2'>
-          Você reside em {user.city},{' '}
-          <Link to='/' className='text-emerald-500 underline'>
-            veja as ofertas disponíveis na sua cidade.
-          </Link>
-        </p>
+      <AlleBody loading={loading} className='flex-col min-h-screen '>
+        <span className='p-5'>
+          <h2 className='text-2xl text-slate-600 mt-5'>
+            Olá {user.displayName}
+          </h2>
+          <p className='text-slate-500 text-sm mt-2'>
+            Você reside em <strong>{user.city}</strong>,{' '}
+            <Link to='/' className='text-emerald-500 underline'>
+              veja as ofertas disponíveis na sua cidade.
+            </Link>
+          </p>
+        </span>
         <CreateOfferCard />
       </AlleBody>
     </>

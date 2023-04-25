@@ -102,8 +102,11 @@ const AlleLogin = () => {
             <li>
               <Link to='/new-offer'>Criar um anúncio</Link>
             </li>
+            <div className='divider  my-0 py-0' />
             <li>
-              <a onClick={onLogout}>Logout</a>
+              <a className=' my-0 pt-1 pb-2' onClick={onLogout}>
+                Logout
+              </a>
             </li>
           </ul>
         </div>

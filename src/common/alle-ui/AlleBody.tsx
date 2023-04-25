@@ -16,7 +16,7 @@ const AlleBody = ({
   return (
     <div
       style={style}
-      className={`flex justify-items-center ${itemsCenter} overflow-x-hidden bg-slate-100 px-4 h-full min-h-screen md:items-center ${className}`}
+      className={`flex justify-items-center ${itemsCenter} w-screen overflow-x-hidden bg-slate-100 ps-2 pe-3 h-full min-h-screen md:items-center ${className}`}
     >
       {loading ? <CircularProgress /> : children}
     </div>
