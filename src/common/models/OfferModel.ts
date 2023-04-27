@@ -15,6 +15,7 @@ export interface Offer {
   online: boolean;
   phone: string;
   website: string;
+  firebaseImage?: string;
   email: string;
   address: string;
   isActive: boolean;

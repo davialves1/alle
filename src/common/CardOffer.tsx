@@ -3,13 +3,16 @@ import { Offer } from './models/OfferModel';
 import { Link } from 'react-router-dom';
 
 const CardOffer = ({ offer }: { offer: Offer }) => {
+  const unsplash =
+    'https://images.unsplash.com/photo-1527549993586-dff825b37782';
+
   return (
     <Link to={`offer-detail/${offer.offerId}`}>
       <div className='card w-auto md:w-96 mx-auto md:mx-2 bg-base-100 border border-slate-300 my-2'>
         <figure>
           <img
-            src='https://images.unsplash.com/photo-1527549993586-dff825b37782'
-            alt='Shoes'
+            src={offer.firebaseImage ? offer.firebaseImage : unsplash}
+            alt={offer.company}
           />
         </figure>
         <div className='card-body'>
